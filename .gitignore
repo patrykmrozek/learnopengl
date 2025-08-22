@@ -1,0 +1,132 @@
+# Compiled object files
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+
+# Precompiled headers
+*.gch
+*.pch
+
+# Compiled dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Static libraries
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Build directories
+build/
+bin/
+obj/
+Debug/
+Release/
+x64/
+x86/
+.vs/
+.idea/
+
+# CMake build files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+
+# Dependency directories
+deps/
+external/
+libs/
+
+# GLAD generated files (if generated in source)
+src/glad.c
+
+# Editor files
+*.swp
+*.swo
+*~
+*.un~
+.session
+*.session
+*.session.lock
+
+# Neovim specific
+.nvim/
+*.nvimlog
+
+# VS Code (if used occasionally)
+.vscode/
+
+# CLion (if used occasionally)
+.idea/
+*.iml
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Precompiled headers
+*.gch
+*.pch
+
+# Dependency files (dependencies are typically managed by package managers)
+dependencies/
+packages/
+
+# Backup files
+*.bak
+*.backup
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory
+coverage/
+*.gcno
+*.gcda
+*.gcov
+
+# Profiling data
+*.profdata
+
+# Clangd cache and auto-generated files
+.clangd/cache/
+.clangd/index/
+.cache/
+# End of gitignore

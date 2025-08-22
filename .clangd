@@ -1,0 +1,8 @@
+CompileFlags:
+  Add:
+    - -I/usr/local/opt/glfw/include
+    - -Iinclude
+    - -std=c++17
+    - -DGLFW_INCLUDE_NONE
+  Remove:
+    - -W*
