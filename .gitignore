@@ -130,3 +130,5 @@ coverage/
 .clangd/index/
 .cache/
 # End of gitignore
+glad/
+KHR/
