@@ -1,6 +1,8 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 #include <iostream>
+#include <fstream>
+#include <string>
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 800
@@ -8,18 +10,16 @@
 int success;
 char infoLog[512];
 
-const char *vertexShaderSource =
-    "#version 330 core\n"
-    "layout (location = 0) in vec3 aPos;\n"
-    "void main() {\n"
-    " gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-    "}\0";
-
-const char *fragmentShaderSource = "#version 330 core\n"
-                                   "out vec4 FragColor;\n"
-                                   "void main() {\n"
-                                   "FragColor = vec4(1.0f, 0.1f, 0.9f, 1.0f);\n"
-                                   "}//0";
+//get shader from a file and place it in shaderSource
+static std::string parseShaderSource( const std::string &filePath) {
+  std::ifstream stream(filePath);
+  std::string line;
+  std::string shaderSource;
+  while (std::getline(stream, line)) {
+    shaderSource += line + "\n"; 
+  }
+  return shaderSource;
+}
 
 // callback function GLFW will call every time we resize the window
 void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
@@ -73,6 +73,21 @@ int main() {
       0, 3, 4, // third triangle
       1, 2, 4  // fourth triangle
   };
+
+  //get shaderSources from files
+  const char *vertexShaderSource;
+  const char *fragmentShaderSource;
+  
+  std::string vertexShaderCode = parseShaderSource("../res/shaders/basic.vert");
+  vertexShaderSource = vertexShaderCode.c_str();
+
+  std::string fragmentShaderCode = parseShaderSource("../res/shaders/basic.frag");
+  fragmentShaderSource = fragmentShaderCode.c_str();
+
+  std::cout << "VERTEX CODE: " << vertexShaderCode << "\n";
+  std::cout << "FRAGMENT CODE: " << fragmentShaderCode << "\n";
+
+
   unsigned int VAO, VBO, EBO; // Element Buffer Object
   // VAO
   glGenVertexArrays(1, &VAO);
@@ -134,9 +149,22 @@ int main() {
   glDeleteShader(fragmentShader);
 
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // draws in a 'wireframe' mode
+  bool wireframe = true;
 
   while (!glfwWindowShouldClose(window)) {
     processInput(window);
+
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+      if (wireframe) {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        wireframe = !(wireframe);
+      } else {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        wireframe = !(wireframe);
+      }
+    }
+
+//    std::cout << "WIREFRAME: " << wireframe << "\n";
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);
