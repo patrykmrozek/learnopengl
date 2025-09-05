@@ -3,9 +3,12 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <signal.h>
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 800
+
+#define ASSERT(x) if (!(x)) raise(SIGTRAP) //cause a debugger break
 
 int success;
 char infoLog[512];
@@ -16,10 +19,12 @@ static void GLClearError() {
 }
 
 
-static void GLCheckError() {
+static bool GLLogCall() {
   while (GLenum error = glGetError()) {
     std::cout << "OpenGL Error: " << error << "\n";
+    return false;
   }
+  return true;
 }
 
 //get shader from a file and place it in shaderSource
@@ -192,7 +197,7 @@ int main() {
     // changing type from GL_UNSIGNED_INT to GL_INT to test error
     GLClearError();
     glDrawElements(GL_TRIANGLES, 12, GL_INT, 0);
-    GLCheckError();
+    ASSERT(GLLogCall());
     glBindVertexArray(0);
 
     glfwSwapBuffers(window);
