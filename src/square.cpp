@@ -11,7 +11,7 @@
 #define ASSERT(x) if (!(x)) raise(SIGTRAP) //cause a debugger break
 #define GLCALL(x) GLClearError();\
                   x;\
-                  ASSERT(GLLogCall())
+                  ASSERT(GLLogCall(#x, __FILE__, __LINE__))
 
 int success;
 char infoLog[512];
@@ -22,9 +22,14 @@ static void GLClearError() {
 }
 
 
-static bool GLLogCall() {
+static bool GLLogCall(const char* function, const char* file, int line) {
   while (GLenum error = glGetError()) {
-    std::cout << "OpenGL Error: " << error << "\n";
+    std::cout << 
+      "OpenGL Error: " << error <<
+      "\nFunction: " << function <<
+      "\nFile: " << file <<
+      "\nLine: " << line <<
+      "\n";
     return false;
   }
   return true;
