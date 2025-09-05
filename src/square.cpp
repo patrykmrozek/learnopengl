@@ -10,6 +10,18 @@
 int success;
 char infoLog[512];
 
+
+static void GLClearError() {
+  while (glGetError() != GL_NO_ERROR); //clears all errors
+}
+
+
+static void GLCheckError() {
+  while (GLenum error = glGetError()) {
+    std::cout << "OpenGL Error: " << error << "\n";
+  }
+}
+
 //get shader from a file and place it in shaderSource
 static std::string parseShaderSource( const std::string &filePath) {
   std::ifstream stream(filePath);
@@ -33,7 +45,7 @@ void processInput(GLFWwindow *window) {
 }
 
 int main() {
-  std::cout << "square" << "\n";
+  //std::cout << "square" << "\n";
 
   glfwInit();
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -176,7 +188,11 @@ int main() {
     // the indices The vertex array also keeps track of EBO bindings The last
     // EBO object that is bound while the VAO is bound, is stored as a VAOs
     // element buffer object
-    glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
+    
+    // changing type from GL_UNSIGNED_INT to GL_INT to test error
+    GLClearError();
+    glDrawElements(GL_TRIANGLES, 12, GL_INT, 0);
+    GLCheckError();
     glBindVertexArray(0);
 
     glfwSwapBuffers(window);
