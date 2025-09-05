@@ -9,6 +9,9 @@
 #define SCREEN_HEIGHT 800
 
 #define ASSERT(x) if (!(x)) raise(SIGTRAP) //cause a debugger break
+#define GLCALL(x) GLClearError();\
+                  x;\
+                  ASSERT(GLLogCall())
 
 int success;
 char infoLog[512];
@@ -195,9 +198,7 @@ int main() {
     // element buffer object
     
     // changing type from GL_UNSIGNED_INT to GL_INT to test error
-    GLClearError();
-    glDrawElements(GL_TRIANGLES, 12, GL_INT, 0);
-    ASSERT(GLLogCall());
+    GLCALL(glDrawElements(GL_TRIANGLES, 12, GL_INT, 0));
     glBindVertexArray(0);
 
     glfwSwapBuffers(window);
